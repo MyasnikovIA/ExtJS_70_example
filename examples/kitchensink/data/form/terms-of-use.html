@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Sencha Example Template (do not change this line)  -->
+<!-- Version 1.0.8 -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.typekit.net/cvn5gkv.js"></script>
+    <script>try { Typekit.load({ async: true }); } catch (e) { }</script>
+    <title>Sencha | Examples</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/foundation.css" />
+    <link rel="stylesheet" href="/css/app.css" />
+    <link rel="stylesheet" href="/fonts/style.css" />
+    <script src="/js/vendor/jquery.min.js"></script>
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://use.typekit.net/cvn5gkv.js"></script>
+    <script>
+        try {
+            Typekit.load({
+                async: true
+            });
+        } catch (e) { }
+    </script>
+</head><link rel="stylesheet" href="/marketing.css"><script language="javascript" src="/marketing.js"></script>
+
+<body>
+    <!-- Header Styles --> 
+    <style>
+        .header-container-short {
+            background-color: #024059;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            width: 100%;
+        }
+
+        .header-container-short logo {}
+
+        .header-container-short img {
+            margin-left: 10px;
+            height: 30px;
+        }
+
+        .header-container-short .title {
+            color: white;
+            margin-left: 4px;
+            font-weight: bold;
+            padding-right: 20px;
+        }
+
+        .header-container-short .button {
+            margin-left: 20px;
+        }
+
+        .header-container-short .example-cta {
+            padding-top: 9px;
+            padding-bottom: 9px;
+        }
+
+        .header-buttons {
+            display: inline-block;
+        }
+ 
+        @media only screen and (max-width: 600px) {
+            .header-buttons a {
+                margin-top: 4px;
+                margin-bottom: 4px;
+            }
+        }
+
+        @media only screen and (max-width: 500px) {
+            #header-container-short {
+                display: none;
+            }
+        }
+    </style>
+
+    <!-- Header Container -->
+    <div id='header-container-short' class="header-container-short">
+        <a class='logo' href="https://www.sencha.com/">
+            <img src="/img/logo.png" />
+        </a>
+        <span id='header-container-text' class='title'>Sencha Ext JS</span>
+        <div class='header-buttons'>
+            <a id='header-container-viewexamples-link' href="/extjs" class="example-cta button">View Examples</a>
+            <a id='header-container-starttrial-link' href="https://www.sencha.com/products/extjs/evaluate/" class="example-cta button">Start
+            a Free Trial</a>
+        </div>
+    </div>
+
+    <!-- Example Iframe -->
+    <iframe id='examples-iframe' width="100%" height="100%" frameborder="0"></iframe>
+
+    <!-- Load Iframe -->
+    <script>
+        var windowHeight = window.document.body.offsetHeight;
+        var headerHeight = document.getElementById('header-container-short').offsetHeight;        
+        var frameHeight = windowHeight - headerHeight;
+        
+        // onload load the iframe
+        var url = "frame-terms-of-use.html";
+
+        // gxt custom loading, b/c of proxy
+        if (window.location.href.indexOf('/gxt/examples') != -1) {
+            url = '/gxt/examples/latest/';
+        } else if (window.location.href.indexOf('/gxt/edash') != -1) {
+            url = '/gxt-edash/4.0.3/';
+        }
+
+        var search = window.location.search;
+        if (search) {
+            url += search; 
+        }
+
+        var hash = window.location.hash;
+        if (hash) {
+            url += hash;
+        }
+        
+        //console.log("load iframe url=" + url);
+        var iframe = document.getElementById('examples-iframe');
+        iframe.src = url;
+        if (frameHeight) {
+            iframe.height = frameHeight + "px";
+        }
+    </script>
+
+    <script>
+        function resizeHandler() {
+            var windowHeight = window.document.body.offsetHeight;
+            var headerHeight = document.getElementById('header-container-short').offsetHeight;
+            var frameHeight = windowHeight - headerHeight;
+            var iframe = document.getElementById('examples-iframe');
+            if (frameHeight) {
+                iframe.height = frameHeight + "px";
+            }   
+        }
+        window.addEventListener("resize", resizeHandler);
+    </script>
+
+    <!-- Iframe Example Routing Overlay -->
+    <script>
+        function addIframeMessageHandler() {
+            // Listen for child post messages
+            // This will only handle events on the same domain orgin for parent and child
+            function messageHandler(event) {
+                try {
+                    var message = event.data;
+                    if (message && message.hasOwnProperty('from') && message.from === 'child') {
+                        // Update the hash in parent
+                        //console.log("2. Parent: message hash update")
+                        history.pushState(null, null, message.hash);
+                    }
+                } catch (e) {
+                    console.log("Parent: recieved message processing error", e);
+                }
+            }
+            var iframe = document.getElementById('examples-iframe');
+            iframe.contentWindow.addEventListener("message", messageHandler, false);
+        }
+        // Register the handler after the load
+        iframe.onload = addIframeMessageHandler;
+    </script>
+
+    <!-- Set the product specific page contents -->
+    <script>
+        var href = window.location.href;
+        var product = "Ext JS";
+        var viewExamplesLink = "/extjs";
+        var startTrailLink = "https://www.sencha.com/products/extjs/evaluate/";
+        
+        if (href.toLowerCase().indexOf('extreact') != -1) {
+            product = 'ExtReact';
+            viewExamplesLink = "/ExtReact";
+            startTrailLink = "https://www.sencha.com/products/extreact/evaluate/";
+            
+        } else if (href.toLowerCase().indexOf('gxt') != -1) {
+            product = 'GXT';
+            viewExamplesLink = "/gxt";
+            startTrailLink = "https://www.sencha.com/products/gxt/evaluate/";
+            
+        } else if (href.toLowerCase().indexOf('extangular') != -1) {
+            product = 'ExtAngular';
+            viewExamplesLink = "/ExtAngular";
+            startTrailLink = "https://www.sencha.com/products/extangular/evaluate/";
+        }
+
+        // Set title
+        window.document.title = `Sencha | ${product} Examples`;
+
+        // Set the header text
+        var headerContainerTextEl = document.getElementById('header-container-text');
+        headerContainerTextEl.innerHTML = `Sencha ${product}`;
+
+        // Set the view examples link
+        var headerContainerViewExamplesLinkEl = document.getElementById('header-container-viewexamples-link');
+        headerContainerViewExamplesLinkEl.href = viewExamplesLink;
+
+        // Set the start trial link
+        var headerContainerStartTrialLinkEl = document.getElementById('header-container-starttrial-link');
+        headerContainerStartTrialLinkEl.href = startTrailLink;
+    </script>
+
+    <!-- Google Analytics -->
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-1396058-29', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- Foundation -->
+    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
+</body>
+
+</html>

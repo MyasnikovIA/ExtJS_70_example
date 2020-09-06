@@ -1,0 +1,1 @@
+var Ext = Ext || {}; Ext.REMOTING_API = {"url":"data\/direct\/router.php","type":"remoting","actions":{"TestAction":[{"name":"doEcho","len":1},{"name":"multiply","len":1},{"name":"getTree","len":1},{"name":"getGrid","len":1,"metadata":{"params":["table"]}},{"name":"showDetails","params":["firstName","lastName","age"]}]}};
